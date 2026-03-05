@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "configsync-lite"
+version = "0.1.2"
+description = "A lightweight configuration sync utility with environment variable interpolation"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "optimusdemo", email = "akrine2000@gmail.com"}
+]
+keywords = ["config", "configuration", "sync", "environment", "yaml", "json"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.9"
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/akrine2000/configsync-lite"
+Repository = "https://github.com/akrine2000/configsync-lite"
+Issues = "https://github.com/akrine2000/configsync-lite/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["configsync_lite*"]

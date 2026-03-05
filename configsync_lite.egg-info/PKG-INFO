@@ -1,0 +1,116 @@
+Metadata-Version: 2.4
+Name: configsync-lite
+Version: 0.1.2
+Summary: A lightweight configuration sync utility with environment variable interpolation
+Author-email: optimusdemo <akrine2000@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/akrine2000/configsync-lite
+Project-URL: Repository, https://github.com/akrine2000/configsync-lite
+Project-URL: Issues, https://github.com/akrine2000/configsync-lite/issues
+Keywords: config,configuration,sync,environment,yaml,json
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+
+# configsync-lite
+
+A lightweight Python library for managing configuration files with environment variable interpolation and schema validation.
+
+## Installation
+
+```bash
+pip install configsync-lite
+```
+
+## Quick Start
+
+```python
+from configsync_lite import ConfigSync
+
+cfg = ConfigSync("config.json")
+db_host = cfg.get("database.host")
+```
+
+## Features
+
+- JSON configuration file support
+- Dot notation access (`cfg.get("database.host")`)
+- Environment variable interpolation (`${DB_HOST}`)
+- Schema validation
+- Deep merge of multiple configs
+- Zero dependencies
+
+## Usage
+
+### Basic Configuration
+
+```python
+from configsync_lite import ConfigSync, load_config
+
+# Load from file
+cfg = ConfigSync("myapp.json")
+
+# Get values with dot notation
+host = cfg.get("server.host", default="localhost")
+port = cfg.get("server.port", default=8080)
+
+# Set and save
+cfg.set("server.port", 9090)
+cfg.save()
+```
+
+### Environment Variable Interpolation
+
+```python
+from configsync_lite import load_config, interpolate_env
+
+raw = load_config("config.json")
+# config.json contains: {"db": {"password": "${DB_PASSWORD}"}}
+
+resolved = interpolate_env(raw)
+# Replaces ${DB_PASSWORD} with actual env var value
+```
+
+### Merging Configs
+
+```python
+from configsync_lite import merge_configs
+
+base = {"server": {"host": "localhost", "port": 8080}}
+override = {"server": {"port": 9090}, "debug": True}
+
+merged = merge_configs(base, override)
+# {"server": {"host": "localhost", "port": 9090}, "debug": True}
+```
+
+### Schema Validation
+
+```python
+from configsync_lite import load_config, validate_schema
+
+config = load_config("config.json")
+schema = {
+    "host": {"type": "str", "required": True},
+    "port": {"type": "int", "required": True},
+    "debug": {"type": "bool", "required": False}
+}
+
+errors = validate_schema(config, schema)
+if errors:
+    print("Config errors:", errors)
+```
+
+## Contributing
+
+See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for development setup and guidelines.
+
+## License
+
+MIT
